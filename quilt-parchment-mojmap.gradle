@@ -1,0 +1,20 @@
+repositories {
+    maven {
+        url 'https://maven.parchmentmc.org/'
+    }
+}
+
+def parchmentOnQuiltOnMojmap() {
+    return loom.layered {
+        // first use mojmap as a base
+        officialMojangMappings()
+        // then use quilt mappings wherever possible
+        addLayer(quiltmappings.mappings("org.quiltmc:quilt-mappings:${project.minecraft_version}+build.${project.quilt_mappings}:v2", true))
+        // and finally use parchment for as many params as possible
+        parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
+    }
+}
+
+ext {
+    parchmentOnQuiltOnMojmap = this.&parchmentOnQuiltOnMojmap
+}
