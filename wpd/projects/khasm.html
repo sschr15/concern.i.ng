@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title> Khasm </title>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/styles/main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="PATH" content="/projects/khasm.html">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/gradle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/xml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/kotlin.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/java.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body onload="relativizeLinks()">
+        <h1 align="center" id="top"> Khasm </h1>
+        <h2 align="center"> 
+            A mod providing deeper bytecode modifications.
+        </h2>
+
+        <div id="toc"></div>
+
+        <hr />
+        <table>
+            <tbody>
+                <tr>
+                    <td width="50%">
+                        <h3>
+                            What is Khasm?
+                        </h3>
+                        <p>
+                            Khasm is a (constantly) work-in-progress project which provides direct bytecode
+                            manipulation of Java classes when in a Minecraft environment.
+                        </p>
+                    </td>
+                    <td width="50%">
+                        <h3>
+                            How does it work?
+                        </h3>
+                        <p markdown>
+                            The tool is written in Kotlin and uses some *questionable-at-best* practices to
+                            load and manipulate classes. It ~~breaks~~ ***heavily modifies*** the bytecode of
+                            some classes that are controlled by [Fabric Loader](https://fabricmc.net/), and as
+                            a result, it may cause weird edge-cases. As a certain
+                            [HalfOf2 / Devan-Kerman](https://github.com/Devan-Kerman) once said,
+
+                            <blockquote> There isn't a problem you can't solve with copious amounts of asm. </blockquote>
+                        </p>
+                        <p>
+                            In general, Khasm is a work-in-progress and is not guaranteed to work with everything.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3>
+                            Why would I use it?
+                        </h3>
+                        <p>
+                            You shouldn't. The end.
+                            <br />
+                            If you're crazy enough to do it anyways, here's an example:
+                            <!-- highlight.js is loaded so magics can occur -->
+                            <pre><code class="language-kotlin">
+class MyModifier : KhasmInitializer() {
+    override fun init() {
+        // Modify TitleScreen's constructor to print "Hello Khasm!"
+        KhasmMethodTransformerDispatcher.registerMethodTransformer("example") {
+            classTarget("net.minecraft.class_442") // TitleScreen in intermediary
+
+            methodTarget {
+                it.name == "&lt;init&gt;" // All constructors
+            }
+
+            addInject(ReturnTarget(), smartInject {
+                println("Hello Khasm!")
+            })
+        }
+    }
+}
+                            </code></pre>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-top">
+                        <h3 toc="Jump to how to use" id="how-can-i-get-it">
+                            How can I get it?
+                        </h3>
+                        <p>
+                            Add a dependency to your <code>build.gradle</code> or <code>build.gradle.kts</code>
+                        </p>
+                        <p>
+                            <code>build.gradle</code>:
+                            <pre><code class="language-gradle">
+repositories {
+    maven {
+        url "https://maven.concern.i.ng"
+        name "concernmaven"
+    }
+}
+
+dependencies {
+    include implementation("khasm:khasm:3.4.0")
+}
+                            </code></pre>
+                        </p>
+                        <p>
+                            <code>build.gradle.kts</code>:
+                            <pre><code class="language-kotlin">
+repositories {
+    maven {
+        url = uri("https://maven.concern.i.ng")
+        name = "concernmaven"
+    }
+}
+
+dependencies {
+    include(implementation("khasm:khasm:3.4.0"))
+}
+                            </code></pre>
+                        </p>
+                        <!-- 
+                            no pom.xml because who makes
+                            minecraft mods with maven?
+                         -->
+
+                        <p markdown>
+                            To make sure you have the latest version,
+                            [check the maven](https://maven.concern.i.ng/releases/khasm/khasm/)
+                            and use the largest number. All Khasm versions
+                            follow [Semantic Versioning](https://semver.org/), so double-check
+                            that if you're updating, you are ready for breaking changes if increasing
+                            the major version.
+                        </p>
+                    </td>
+                    <td class="align-top">
+                        <h3>
+                            Browsing the code
+                        </h3>
+                        <p>
+                            The API is available at <a href="https://github.com/sschr15/khasm">GitHub</a>.
+                        </p>
+
+                        <small>
+                            On another note...
+                        </small>
+
+                        <h3>
+                            Why is my code so terrible?
+                        </h3>
+                        <p markdown>
+I do some very questionable things to classes that I should
+have no control over. I also do very intrusive modifications
+in some cases and allow other mods to do the same.
+
+Just for fun, here's a couple snippets of very questionable code:
+
+My instrumentation loading code:
+```java
+String pid = String.valueOf(ProcessHandle.current().pid());
+
+String[] args = {
+        System.getProperty("java.home") + "/bin/java",
+        "-cp",
+        agentJar.toString(), // we want to load our agent jar by itself
+        "net.khasm.instrumentation.InstrumentationAgent",
+        pid,
+        agentJar.toString()
+};
+
+Process process = KhasmUtilitiesKt.rethrowIfException(
+        () -> new ProcessBuilder(args).inheritIO().start()
+);
+
+KhasmUtilitiesKt.rethrowIfException(process::waitFor);
+```
+
+Retransforming classes to force load khasm stuff:
+```kotlin
+retransformClassNode("$knotPkg/KnotClassDelegate") {
+    logger.info("Transforming KnotClassDelegate")
+
+    val kcd = "$knotPkg/KnotClassDelegate"
+    val td = "$knotPkg/TransformData"
+
+    // replace methods because knot is :concerned_tater: and :concern: and :ihaveconcerns:
+    // tryLoadClass adds khasm smart inject methods to the modified class
+    val tryLoadClassDesc = "(Ljava/lang/String;Z)Ljava/lang/Class;"
+
+    with(transformDataClassNode.methods.find {
+        it.name == "tryLoadClass" && it.desc == tryLoadClassDesc
+    }) {
+        this ?: error("Could not find method tryLoadClass$tryLoadClassDesc")
+        methods[methods.indexOfFirst { it.name == name && it.desc == desc }] = this
+        instructions.forEach { when (it) {
+                is MethodInsnNode -> if (it.owner == td) {
+                    it.owner = kcd
+                }
+                is FieldInsnNode -> if (it.owner == td) {
+                    it.owner = kcd
+                }
+            } }
+    }
+
+    // getPreMixinClassByteArray calls khasm transformers
+    with(transformDataClassNode.methods.find {
+        it.name == "getPreMixinClassByteArray" && it.desc == "(Ljava/lang/String;Z)[B"
+    }) {
+        this ?: error(
+            "Could not find method getPreMixinClassByteArray(Ljava/lang/String;Z)[B"
+        )
+        methods[methods.indexOfFirst { it.name == name && it.desc == desc }] = this
+        instructions.forEach { when (it) {
+                is MethodInsnNode -> if (it.owner == td) {
+                    it.owner = kcd
+                }
+                is FieldInsnNode -> if (it.owner == td) {
+                    it.owner = kcd
+                }
+            } }
+    }
+
+    // also export the class as a .class file
+    val classFile = debugFolder / "KnotClassDelegate.class"
+    KhasmClassWriter(AsmClassWriter.COMPUTE_FRAMES, currentClassLoader).also {
+        this.accept(it)
+        classFile.writeBytes(it.toByteArray())
+    }
+}
+```
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <footer style="text-align: center;">
+            <small>
+                The eyeball logo surrounded by green is an edited image of unknown origin.
+                The image was modified by me as a way to identify myself.
+            </small>
+        </footer>
+
+        <!-- this is the one link that must not start with `/` -->
+        <script src="../scripts/main.js"></script>
+        <!-- This script sets up all links which reference Java's docs -->
+        <script src="../scripts/javadoc.js"></script>
+        <!-- This script does funky stuff to convert markdown to HTML -->
+        <script src="../scripts/markdown.js"></script>
+    </body>
+</html>

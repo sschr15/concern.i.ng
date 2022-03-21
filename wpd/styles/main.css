@@ -1,0 +1,122 @@
+@import url(globalvars.css);
+
+/* Google Fonts: Jetbrains Mono, and Ubuntu */
+@import url(https://fonts.googleapis.com/css2?family=JetBrains+Mono);
+@import url(https://fonts.googleapis.com/css2?family=Ubuntu);
+@import url(hljs-material-darker.css);
+
+body {
+    font-family: Ubuntu, sans-serif;
+    color: #fff;
+    background-color: #222;
+}
+
+pre, code, pre code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+a {
+    color: #66f;
+}
+
+a:hover {
+    color: #88f;
+}
+
+a:visited {
+    color: #44f;
+}
+
+a:hover:visited {
+    color: #66f;
+}
+
+table.showborders {
+    border-collapse: collapse;
+}
+
+table.showborders td, table.showborders th {
+    border: 1px solid #ccc;
+}
+
+hr {
+    border: 0;
+    height: 2px;
+    background-image: var(--gradient-white);
+}
+
+code, pre {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.align-top {
+    vertical-align: top;
+}
+
+.horizontal-center {
+    text-align: center;
+}
+
+#nav {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-bottom: 1px solid #333;
+}
+
+:not(pre) code {
+    color: #ccc;
+}
+
+ul.tree, ul.tree li ul, ul.tree li ul li ul, ul.tree li ul li ul li ul,
+ul.tree li ul li ul li ul li ul, ul.tree li ul li ul li ul li ul li ul,
+ul.tree li ul li ul li ul li ul li ul, ul.tree li ul li ul li ul li ul li ul li ul,
+ul.tree li ul li ul li ul li ul li ul li ul, ul.tree li ul li ul li ul li ul li ul li ul li ul {
+    list-style-type: "\2014  ";
+    padding-left: 3%;
+    margin-left: 0;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.file {
+    list-style-type: none;
+}
+
+li::marker {
+    color: #ccc;
+}
+
+img[md] {
+    max-height: 64px;
+}
+
+small {
+    font-size: 0.7em;
+    color: #999;
+    text-align: center;
+}
+
+blockquote {
+    border-left: 4px solid #ccc;
+    padding-left: 1em;
+    margin: 0 0 0 0;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+img.full {
+    width: 100%;
+    object-fit: contain;
+}
+
+.almost-full {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#top {
+    vertical-align: middle;
+}

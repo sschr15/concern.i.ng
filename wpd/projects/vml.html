@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title> Version Mod Loader </title>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/styles/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="PATH" content="/projects/vml.html">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/gradle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/java.min.js"></script>
+    <script>hljs.highlightAll();</script>
+  </head>
+  <body onload="relativizeLinks()">
+    <h1 align="center" id="top"> Version Mod Loader </h1>
+    <h2 align="center"> 
+        A tool to load <a href="https://fabricmc.net/">Fabric</a> mods
+        from a Minecraft-version-specific folder.
+    </h2>
+    <hr />
+    <table>
+        <tbody>
+            <tr>
+                <td width="50%">
+                    <h3>
+                        What is Version Mod Loader?
+                    </h3>
+                    <p markdown>
+                        Version Mod Loader is a mod for [Fabric](https://fabricmc.net/),
+                        which is a mod loader for [Minecraft](https://minecraft.net/).
+                        It allows you to load mods from a folder that is specific to the
+                        Minecraft version you are using.
+                    </p>
+                </td>
+                <td width="50%">
+                    <h3>
+                        How does it work?
+                    </h3>
+                    <p markdown>
+                        The tool is written entirely in Java to require no additional dependencies.
+                        It goes in a Minecraft instance's `mods` folder, and loads mods from
+                        a different folder depending on the Minecraft version. It will also load all
+                        mods in the `common` subfolder, regardless of the Minecraft version.
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h3>
+                        Why would I use it?
+                    </h3>
+                    <p markdown>
+                        Version Mod Loader makes loading different versions under the same folder
+                        very easy. You can use it to load mods in a way that allows other mods
+                        or language adapters to work without requiring multiple copies
+                        of the same mod in different folders.
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3>
+                        How do I use it?
+                    </h3>
+                    <p markdown>
+                        Just put Version Mod Loader in your Minecraft instance's `mods` folder,
+                        and launch the game. VML will, on each new version's launch, create 
+                        a folder in the `mods` folder called `<version>`, and load mods from
+                        there. If you want to manually create a folder for a version,
+                        you can do so by creating a folder with the same name as the version
+                        in the `mods` folder.
+
+                        <h4> Example file structure </h4>
+
+                        <ul class="tree">
+                            <li>
+                                mods
+                                <ul>
+                                    <li class="file">
+                                        version-mod-loader.jar
+                                    </li>
+                                    <li>
+                                        1.12.2
+                                        <ul>
+                                            <li class="file">
+                                                mod1+v1.12.2.jar
+                                            </li>
+                                            <li class="file">
+                                                mod2+v1.12.2.jar
+                                            </li>
+                                            <li class="file">
+                                                1.12-dependency.jar
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        1.14.4
+                                        <ul>
+                                            <li class="file">
+                                                mod1+v1.14.4.jar
+                                            </li>
+                                            <li class="file">
+                                                mod2+v1.14.4.jar
+                                            </li>
+                                            <li class="file">
+                                                1.14-dependency.jar
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        common
+                                        <ul>
+                                            <li class="file">
+                                                common-api.jar
+                                            </li>
+                                            <li class="file">
+                                                depends-on-a-mod-which-changes-based-on-version.jar
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </p>
+                </td>
+                <td class="align-top">
+                    <h3 toc="Jump to how to use" id="how-can-i-get-it">
+                        Where can I get it?
+                    </h3>
+                    <p markdown>
+                        Version Mod Loader is available on [GitHub](https://github.com/sschr15/Version-Mod-Loader).
+                        It is also available on [Modrinth](https://modrinth.com/mod/vml).
+
+                        It is compatible with every Minecraft version that Fabric supports, but it is not compatible
+                        with every version of the Fabric mod loader. It has been tested against versions known to support
+                        Minecraft 1.16, so it likely will work with any version of Fabric installed in the past many years.
+
+                        Clickable images for style:
+
+                        [![GitHub Logo](/images/gh-logo-white.png)](https://github.com/sschr15/Version-Mod-Loader/releases/latest)
+                        [![Modrinth Logo](/images/modrinth-logo.svg)](https://modrinth.com/mod/vml/versions)
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <footer>
+        <small markdown>
+            The GitHub logo is a registered trademark of GitHub, Inc. and is used with permission.
+            It can be found at [their logo page](https://github.com/logos), which also contains usage guidelines.
+
+            The Modrinth logo is available in Modrinth's [docs repository](https://github.com/modrinth/docs/tree/master/static/img),
+            hosted on GitHub, and it is used with permission.
+
+            The eyeball logo surrounded by green is an edited image of unknown origin.
+            The image was modified by me as a way to identify myself.
+        </small>
+    </footer>
+
+    <!-- this is the one link that must not start with `/` -->
+    <script src="../scripts/main.js"></script>
+    <!-- This script sets up all links which reference Java's docs -->
+    <script src="../scripts/javadoc.js"></script>
+    <!-- This script does funky stuff to convert markdown to HTML -->
+    <script src="../scripts/markdown.js"></script>
+  </body>
+</html>

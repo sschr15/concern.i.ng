@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title> Better Paths </title>
+        <link rel="icon" href="../favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/styles/main.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="PATH" content="/projects/better-paths.html">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/gradle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/xml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/kotlin.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/java.min.js"></script>
+        <script>hljs.highlightAll();</script>
+    </head>
+    <body onload="relativizeLinks()">
+        <h1 align="center" id="top"> Better Paths </h1>
+        <h2 align="center"> 
+        A tool for easier
+        <a javadoc="java/nio/file/Path.html">Path</a>
+        creation and manipulation.
+        </h2>
+
+        <div id="toc"></div>
+
+        <hr />
+        <table>
+            <tbody>
+                <tr>
+                    <td width="50%">
+                        <h3>
+                            What is Better Paths?
+                        </h3>
+                        <p>
+                            Better Paths is a tool written in Kotlin designed to make it easier to create and
+                            manipulate Java's <a javadoc="java/nio/file/Path.html">Path</a> objects.
+                            It contains a lot of methods which mostly just act as extension functions to use
+                            <a javadoc="java/nio/file/Files.html">Files</a>'s methods as if they were
+                            part of the Path class itself.
+                        </p>
+                    </td>
+                    <td width="50%">
+                        <h3>
+                            How does it work?
+                        </h3>
+                        <p>
+                            The tool is written in Kotlin and uses Java's <a javadoc="java/nio/file/Path.html">Path</a>
+                            class to create and manipulate paths.
+                            <br />
+                            It is designed for a more "Kotlin-esque" approach to path creation and manipulation. It also
+                            provides constructor-style methods for creating paths.
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h3>
+                            Why would I use it?
+                        </h3>
+                        <p>
+                            Better Paths provides Kotlin users a simpler and more intuitive way to create and manipulate
+                            paths. It improves readability and makes it easier to understand what is happening.
+                        </p>
+                        <p>
+                            Example:
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50%">
+                        <p>
+                            <br />
+                            <!-- highlight.js is loaded so magics can occur -->
+                            Java code:
+                            <pre><code class="language-java">
+    public class Main {
+        public static void main(String[] args) {
+            // Get a path from a string
+            Path path = Paths.get("/home/user/file.txt");
+            
+            // Read the contents of the file as a list of lines
+            Stream&lt;String&gt; lines = Files.lines(path);
+            List&lt;String&gt; linesList = lines.collect(Collectors.toList());
+            
+            // Compare with the readLines output
+            assert Files.readAllLines(path).equals(linesList);
+            
+            // Output the lines to stdout
+            lines.forEach(System.out::println);
+        }
+    }
+                            </code></pre>
+                        </p>
+                    </td>
+                    <td>
+                        Kotlin code (using Better Paths):
+                        <pre><code class="language-kotlin">
+    fun main() {
+        // Get a path from a string
+        val path = "/home/user/file.txt".toPath()
+
+        // Read the contents of the file as a list of lines
+        val lines = path.lines().toList()
+
+        // Compare with the readLines output
+        assert path.readLines().equals(lines)
+
+        // Output the lines to stdout
+        lines.forEach { println(it) }
+    }
+                        </code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h3 toc="Jump to how to use" id="how-can-i-get-it">
+                            How can I get it?
+                        </h3>
+                        <p>
+                            Add a dependency to your <code>build.gradle</code>,
+                            <code>build.gradle.kts</code>, <code>pom.xml</code>, or other buildscript.
+                        </p>
+                        <p>
+                            <code>build.gradle</code>:
+                            <pre><code class="language-gradle">
+repositories {
+    maven {
+        url "https://maven.concern.i.ng"
+        name "concernmaven"
+    }
+}
+
+dependencies {
+    implementation "sschr15.tools:better-paths:1.1.0"
+
+    // If using in a Minecraft mod built with Fabric Loom, include it:
+    include "sschr15.tools:better-paths:1.1.0"
+}
+                            </code></pre>
+                        </p>
+                        <p>
+                            <code>build.gradle.kts</code>:
+                            <pre><code class="language-kotlin">
+repositories {
+    maven {
+        url = uri("https://maven.concern.i.ng")
+        name = "concernmaven"
+    }
+}
+
+dependencies {
+    implementation("sschr15.tools:better-paths:1.1.0")
+
+    // If using in a Minecraft mod built with Fabric Loom, include it:
+    include("sschr15.tools:better-paths:1.1.0")
+}
+                            </code></pre>
+                        </p>
+                        <p>
+                            <code>pom.xml</code>:
+                            <pre><code class="language-xml">
+&lt;repositories&gt;
+    &lt;repository&gt;
+        &lt;id&gt;concernmaven&lt;/id&gt;
+        &lt;url&gt;https://maven.concern.i.ng&lt;/url&gt;
+    &lt;/repository&gt;
+&lt;/repositories&gt;
+
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;sschr15.tools&lt;/groupId&gt;
+        &lt;artifactId&gt;better-paths&lt;/artifactId&gt;
+        &lt;version&gt;1.1.0&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+                            </code></pre>
+                        </p>
+                    </td>
+                    <td class="align-top">
+                        <h3>
+                            Browsing the API
+                        </h3>
+                        <p>
+                            The API is available at <a href="https://github.com/sschr15/better-paths">GitHub</a>.
+                            For developers, it can be downloaded directly from my maven repository:
+                            <ul>
+                                <li>
+                                    <a href="https://maven.concern.i.ng/releases/sschr15/tools/better-paths/1.1.0/better-paths-1.1.0.jar">
+                                        Jar
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://maven.concern.i.ng/releases/sschr15/tools/better-paths/1.1.0/better-paths-1.1.0-sources.jar">
+                                        Sources
+                                    </a>
+                                </li>
+                            </ul>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <footer style="text-align: center;">
+            <small>
+                The eyeball logo surrounded by green is an edited image of unknown origin.
+                The image was modified by me as a way to identify myself.
+            </small>
+        </footer>
+
+        <!-- this is the one link that must not start with `/` -->
+        <script src="../scripts/main.js"></script>
+        <!-- This script sets up all links which reference Java's docs -->
+        <script src="../scripts/javadoc.js"></script>
+    </body>
+</html>
