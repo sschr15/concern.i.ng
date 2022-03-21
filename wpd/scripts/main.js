@@ -88,7 +88,7 @@ function relativizeLinks() {
     "use strict";
     /** @type {String} */
     const protocol = window.location.protocol;
-    if (protocol === "file:") {
+    if (true) {
         // we must relativize
 
         const absolutePath = document.querySelector('meta[name="PATH"]').content;
