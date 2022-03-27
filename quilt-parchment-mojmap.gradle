@@ -12,7 +12,7 @@ def parchmentOnQuiltOnMojmap() {
         // first use mojmap as a base
         officialMojangMappings()
         // then use quilt mappings wherever possible
-        addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:${project.quilt_mappings}:v2", true))
+        addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:${project.quilt_mappings}:v2"))
         // and finally use parchment for as many params as possible
         parchment("org.parchmentmc.data:parchment-${project.minecraft_version}:${project.parchment_version}@zip")
     }
