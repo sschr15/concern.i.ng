@@ -6,9 +6,9 @@
 // @namespace    https://infra.link/
 // @match        https://www.curseforge.com/minecraft/*
 // @match        https://www.curseforge.com/Minecraft/*
-// @downloadURL  https://concern.i.ng/good-cf-headers.js
-// @updateURL    https://concern.i.ng/good-cf-headers.js
-// @source       https://concern.i.ng/good-cf-headers.js
+// @downloadURL  https://concern.i.ng/good-cf-headers.user.js
+// @updateURL    https://concern.i.ng/good-cf-headers.user.js
+// @source       https://concern.i.ng/good-cf-headers.user.js
 // @supportURL   https://concern.i.ng
 // @homepage     https://concern.i.ng
 // @run-at       document-end
