@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Advent of Code Page Navigation
-// @version      0.2
+// @version      0.3
 // @description  Add buttons to easily move between AoC challenge pages
 // @author       sschr15
 // @namespace    https://infra.link/
@@ -28,7 +28,7 @@
         const prevLink = document.createElement("a");
         let href = prevDay > 0 ? `/${year}/day/${prevDay}` : `/${year - 1}/day/25`;
         prevLink.href = href;
-        prevLink.textContent = "[&lt;&lt;]";
+        prevLink.textContent = "[<<]";
         prevLink.title = `Day ${prevDay}`;
         if (prevDay === 0) {
             prevLink.title += ` (${year - 1})`;
@@ -37,7 +37,7 @@
         const nextLink = document.createElement("a");
         href = nextDay < 26 ? `/${year}/day/${nextDay}` : `/${year + 1}/day/1`;
         nextLink.href = href;
-        nextLink.textContent = "[&gt;&gt;]";
+        nextLink.textContent = "[>>]";
         nextLink.title = `Day ${nextDay}`;
         if (nextDay === 26) {
             nextLink.title += ` (${year + 1})`;
