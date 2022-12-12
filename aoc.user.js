@@ -30,12 +30,18 @@
         prevLink.href = href;
         prevLink.textContent = "[&lt;&lt;]";
         prevLink.title = `Day ${prevDay}`;
+        if (prevDay === 0) {
+            prevLink.title += ` (${year - 1})`;
+        }
 
         const nextLink = document.createElement("a");
         href = nextDay < 26 ? `/${year}/day/${nextDay}` : `/${year + 1}/day/1`;
         nextLink.href = href;
         nextLink.textContent = "[&gt;&gt;]";
         nextLink.title = `Day ${nextDay}`;
+        if (nextDay === 26) {
+            nextLink.title += ` (${year + 1})`;
+        }
 
         const dayHeader = document.querySelector("main article.day-desc h2");
         dayHeader.innerHTML = `${prevLink.outerHTML} ${dayHeader.textContent} ${nextLink.outerHTML}`;
