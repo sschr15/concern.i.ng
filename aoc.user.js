@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Advent of Code Page Navigation
-// @version      0.1
+// @version      0.2
 // @description  Add buttons to easily move between AoC challenge pages
 // @author       sschr15
 // @namespace    https://infra.link/
@@ -15,7 +15,7 @@
 
 (function() {
     "use strict";
-    const aocChallengeLink = /\/(<year>\d{4})\/day\/(<day>\d+)/;
+    const aocChallengeLink = /\/(?<year>\d{4})\/day\/(?<day>\d+)/;
 
     const match = location.pathname.match(aocChallengeLink);
     if (match) {
