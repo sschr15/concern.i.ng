@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         Good CurseForge Headers
-// @version      0.1
+// @version      0.2
 // @description  who needs information about cf's socials or giving feedback
 // @author       sschr15
 // @namespace    https://infra.link/
 // @match        https://www.curseforge.com/minecraft/*
 // @match        https://www.curseforge.com/Minecraft/*
+// @match        https://legacy.curseforge.com/minecraft/*
+// @match        https://legacy.curseforge.com/Minecraft/*
 // @downloadURL  https://concern.i.ng/good-cf-headers.user.js
 // @updateURL    https://concern.i.ng/good-cf-headers.user.js
 // @source       https://concern.i.ng/good-cf-headers.user.js
