@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Advent of Code Site Additions
-// @version      0.5
+// @version      0.5.1
 // @description  Adds buttons to navigate between days, and adds another stat to stats
 // @author       sschr15
 // @namespace    https://infra.link/
@@ -47,7 +47,7 @@
         const dayHeader = document.querySelector("main article.day-desc h2");
         dayHeader.innerHTML = `${prevLink.outerHTML} ${dayHeader.textContent} ${nextLink.outerHTML}`;
     }
-
+    
     match = location.pathname.match(aocStatsLink);
     if (match) {
         /**
@@ -97,6 +97,7 @@
                 const incompleteDays = document.querySelectorAll("body main pre span:not([class])");
                 for (const day of incompleteDays) {
                     const newSpan = document.createElement("span");
+                    newSpan.className = "stats-total";
                     newSpan.textContent = `(${questionMarkString}) `
                     day.insertBefore(newSpan, day.firstChild);
                 }
@@ -124,6 +125,7 @@
                 const incompleteDays = document.querySelectorAll("body main pre span:not([class])");
                 for (const day of incompleteDays) {
                     const newSpan = document.createElement("span");
+                    newSpan.className = "stats-total";
                     newSpan.textContent = "(????) ";
                     day.insertBefore(newSpan, day.firstChild);
                 }
@@ -133,6 +135,9 @@
         const options = document.createElement("div");
 
         const createButtons = () => {
+            /** @type {HTMLAnchorElement | null} */
+            let currentClickedButton = null;
+
             const dayToDay = document.createElement("a");
             dayToDay.href = "#";
             dayToDay.textContent = "[Day-to-day]";
@@ -140,6 +145,9 @@
             dayToDay.addEventListener("click", () => {
                 config.ratios = "daytoday";
                 localStorage.setItem("aoc-user-js-config", JSON.stringify(config));
+                currentClickedButton.style.color = "";
+                currentClickedButton = dayToDay;
+                currentClickedButton.style.color = "#99ff99";
                 refresh();
             });
             options.appendChild(dayToDay);
@@ -151,6 +159,9 @@
             dayToFirst.addEventListener("click", () => {
                 config.ratios = "daytofirst";
                 localStorage.setItem("aoc-user-js-config", JSON.stringify(config));
+                currentClickedButton.style.color = "";
+                currentClickedButton = dayToFirst;
+                currentClickedButton.style.color = "#99ff99";
                 refresh();
             });
             options.appendChild(dayToFirst);
@@ -162,6 +173,9 @@
             betweenParts.addEventListener("click", () => {
                 config.ratios = "betweenparts";
                 localStorage.setItem("aoc-user-js-config", JSON.stringify(config));
+                currentClickedButton.style.color = "";
+                currentClickedButton = betweenParts;
+                currentClickedButton.style.color = "#99ff99";
                 refresh();
             });
             options.appendChild(betweenParts);
@@ -173,6 +187,9 @@
             showTotal.addEventListener("click", () => {
                 config.ratios = "showtotal";
                 localStorage.setItem("aoc-user-js-config", JSON.stringify(config));
+                currentClickedButton.style.color = "";
+                currentClickedButton = showTotal;
+                currentClickedButton.style.color = "#99ff99";
                 refresh();
             });
             options.appendChild(showTotal);
@@ -184,8 +201,26 @@
             noShow.addEventListener("click", () => {
                 config.ratios = null;
                 localStorage.setItem("aoc-user-js-config", JSON.stringify(config));
+                currentClickedButton.style.color = "";
+                currentClickedButton = noShow;
+                currentClickedButton.style.color = "#99ff99";
                 refresh();
             });
+            options.appendChild(noShow);
+
+            if (config.ratios === "daytoday") {
+                currentClickedButton = dayToDay;
+            } else if (config.ratios === "daytofirst") {
+                currentClickedButton = dayToFirst;
+            } else if (config.ratios === "betweenparts") {
+                currentClickedButton = betweenParts;
+            } else if (config.ratios === "showtotal") {
+                currentClickedButton = showTotal;
+            } else {
+                currentClickedButton = noShow;
+            }
+
+            currentClickedButton.style.color = "#99ff99";
         };
 
         if (localStorage.getItem("aoc-user-js-config") === null) {
@@ -202,5 +237,9 @@
         } else {
             createButtons();
         }
+
+        const p = document.querySelector("body main p");
+        p.parentElement.insertBefore(options, p);
+        refresh();
     }
 })();
