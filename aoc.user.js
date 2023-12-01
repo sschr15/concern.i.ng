@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Advent of Code Site Additions
-// @version      0.5.1
+// @version      0.5.2
 // @description  Adds buttons to navigate between days, and adds another stat to stats
 // @author       sschr15
 // @namespace    https://infra.link/
@@ -90,9 +90,11 @@
                 }
             }
 
+            const numberSize = largestTotal.toString().length;
+            document.querySelectorAll(".stats-total").forEach(e => e.innerHTML = e.innerHTML.padStart(numberSize + 3, " "));
+
             if (config.ratios === "showtotal") {
-                const questionMarksNeeded = largestTotal.toString().length;
-                const questionMarkString = "?".repeat(questionMarksNeeded);
+                const questionMarkString = "?".repeat(numberSize);
 
                 const incompleteDays = document.querySelectorAll("body main pre span:not([class])");
                 for (const day of incompleteDays) {
@@ -107,9 +109,9 @@
                     const total = document.querySelector(`.stats-total-d${i}`);
                     const prev = document.querySelector(`.stats-total-d${i - 1}`);
                     if (total && prev && config.ratios !== "betweenparts") {
-                        const today = Number(total.textContent.slice(1, -2));
+                        const today = Number(total.textContent.trim().slice(1, -2));
                         const toCompareTo = config.ratios === "daytoday" ? prev : firstDay;
-                        const compare = Number(toCompareTo.textContent.slice(1, -2));
+                        const compare = Number(toCompareTo.textContent.trim().slice(1, -2));
                         const ratioText = (today / compare).toFixed(2);
                         total.textContent = `(${ratioText}) `;
                     } else if (total === firstDay || config.ratios === "betweenparts") {
