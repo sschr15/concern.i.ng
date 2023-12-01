@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Advent of Code Site Additions
-// @version      0.5.2
+// @version      0.5.3
 // @description  Adds buttons to navigate between days, and adds another stat to stats
 // @author       sschr15
 // @namespace    https://infra.link/
@@ -109,14 +109,14 @@
                     const total = document.querySelector(`.stats-total-d${i}`);
                     const prev = document.querySelector(`.stats-total-d${i - 1}`);
                     if (total && prev && config.ratios !== "betweenparts") {
-                        const today = Number(total.textContent.trim().slice(1, -2));
+                        const today = Number(total.textContent.trim().slice(1, -1));
                         const toCompareTo = config.ratios === "daytoday" ? prev : firstDay;
-                        const compare = Number(toCompareTo.textContent.trim().slice(1, -2));
+                        const compare = Number(toCompareTo.textContent.trim().slice(1, -1));
                         const ratioText = (today / compare).toFixed(2);
                         total.textContent = `(${ratioText}) `;
                     } else if (total === firstDay || config.ratios === "betweenparts") {
                         // instead use ratio between all d1p1 and all d1p2
-                        const full = total.textContent.slice(1, -2);
+                        const full = total.textContent.trim().slice(1, -1);
                         const partial = total.parentElement.querySelector(".stats-both").textContent;
                         const ratioText = (Number(partial) / Number(full)).toFixed(2);
                         console.log({full, partial, ratioText});
